@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import { useFetch, useTheme } from '../../utils/hooks'
 import { StyledLink, Loader } from '../../utils/style/Atoms'
+import EmptyList from '../../components/EmptyList'
 
 const ResultsContainer = styled.div`
   display: flex;
@@ -85,6 +86,10 @@ function Results() {
 
   const resultsData = data?.resultsData
 
+  if (resultsData?.length < 1) {
+    return <EmptyList theme={theme} />
+  }
+
   return isLoading ? (
     <LoaderWrapper>
       <Loader data-testid="loader" />
@@ -116,7 +121,7 @@ function Results() {
               <JobTitle theme={theme} data-testid="job-title">
                 {result.title}
               </JobTitle>
-              <p>{result.description}</p>
+              <p data-testid="job-description">{result.description}</p>
             </JobDescription>
           ))}
       </DescriptionWrapper>
